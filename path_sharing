@@ -1,0 +1,23 @@
+---
+- name: Append a line to a text file on Ubuntu
+  hosts: ubuntu
+  become: true
+  gather_facts: false
+
+  vars:
+    target_path: /tmp/note.txt
+    add_line: "New note added by AWX at {{ lookup('pipe','date -Is') }}"
+
+  tasks:
+    - name: Ensure parent directory exists
+      ansible.builtin.file:
+        path: "{{ target_path | dirname }}"
+        state: directory
+        mode: "0755"
+
+    - name: Append one line
+      ansible.builtin.lineinfile:
+        path: "{{ target_path }}"
+        line: "{{ add_line }}"
+        create: true
+        mode: "0644"
