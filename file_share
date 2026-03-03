@@ -1,0 +1,17 @@
+---
+- name: creating and sending tthe text file to remote machine 
+  become: true 
+  gather_facts: true 
+
+  vars: 
+    path: /tmp/demo
+  tasks:
+    - name: sharing
+      file: 
+        path: " {{ path }}" 
+        state: directory 
+        mode: '0775'
+
+
+
+  
